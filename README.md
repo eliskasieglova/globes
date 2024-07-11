@@ -43,18 +43,14 @@ The **globe definitions** contain values necessary for generating parallels and 
 
 Images from doc. Bayer's materials.
 
-- ualpha:  
 - u_min, u_max, v_min, v_max: x- and y-coordinates of a bounding box for each face (which area on the globe we should create meridians and parallels for, so that we do not make the whole globe for each face) 
 - u_k, v_k: x- and y-coordinate of cartographic pole
-- u_b: 
-- v_b: 
-
-- us1: (only for dodecahedron),
-- uj1: (only for dodecahedron),
-- us2: (only for dodecahedron),
-- uj2: (only for dodecahedron),
-- us: (only for cube),
-- uj: -us, (only for cube).
+- us1: latitude of vertices on northern hemisphere (only for dodecahedron),
+- uj1: latitude of faces on southern hemisphere (only for dodecahedron),
+- us2: latitude of faces on northern hemisphere (only for dodecahedron),
+- uj2: latitude of faces on southern hemisphere (only for dodecahedron),
+- us: latitude of vertices on northern hemisphere (only for cube),
+- uj: -us, letitude of vertices on southern hemisphere (only for cube).
 
 The next section will be a simple walk-through of the code and explanation of its sections.
 
