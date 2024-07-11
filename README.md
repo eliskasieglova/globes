@@ -172,48 +172,46 @@ map_frame.setAnchor = "CENTER_POINT"
 Then comes the finishing touches of the given map frame (we are still working face by face). If ```display == True```, the parallels and meridians will be visualized on the globe. For that it is necessary to set the symbology of these layers. The color is set to slightly transparent black with the width 1.
 
 ```
-        layer1 = new_map.listLayers('meridians')[0]
-        layer2 = new_map.listLayers('parallels')[0]
+layer1 = new_map.listLayers('meridians')[0]
+layer2 = new_map.listLayers('parallels')[0]
 
-        symbology1 = layer1.symbology
-        symbology2 = layer2.symbology
+symbology1 = layer1.symbology
+symbology2 = layer2.symbology
 
-        # Set the symbol color to black
-        symbology1.renderer.symbol.color = {'RGB': [0, 0, 0, 20]}
-        symbology1.renderer.symbol.width = 1
-        symbology2.renderer.symbol.color = {'RGB': [0, 0, 0, 20]}
-        symbology2.renderer.symbol.width = 1
+# Set the symbol color to black
+symbology1.renderer.symbol.color = {'RGB': [0, 0, 0, 20]}
+symbology1.renderer.symbol.width = 1
+symbology2.renderer.symbol.color = {'RGB': [0, 0, 0, 20]}
+symbology2.renderer.symbol.width = 1
 
-        # Update the layer symbology
-        layer1.symbology = symbology1
-        layer2.symbology = symbology2
+# Update the layer symbology
+layer1.symbology = symbology1
+layer2.symbology = symbology2
 ```
 The projection of the background map is set.
 ```
-    # set projection of background map
-    spatial_ref = arcpy.SpatialReference(text=projs[i])
-    map_frame.map.spatialReference = spatial_ref
+# set projection of background map
+spatial_ref = arcpy.SpatialReference(text=projs[i])
+map_frame.map.spatialReference = spatial_ref
 ```
 The map frame is set to fit the extent of the boundary layer (the extent is extracted using arcpy.Describe()) and then the map frame is rotated based on the predefined rotations. Note that by default, the map frame does not rotate together with the elements inside it, therefore the map element has to be rotated separately. A special handling is needed for the pole faces on the cube - setting the extent made the map element rotated by 45° compared to the rest of the faces, the map element had to be rotated by 45° and zoomed in to fit the map frame and connect to the neighboring faces.
 
 ```
-    # set extent to fit the boundary face
-    desc = arcpy.Describe(f'results/boundary_face{i + 1}{globe_type}.shp')
-    extent = desc.extent
+# set extent to fit the boundary face
+desc = arcpy.Describe(f'results/boundary_face{i + 1}{globe_type}.shp')
+extent = desc.extent
 
-    # zoom in on extent (for poles on cube)
-    map_frame.camera.setExtent(arcpy.Extent(extent.XMin * zoom,
-                               extent.YMin * zoom,
-                               extent.XMax * zoom,
-                               extent.YMax * zoom))
+# zoom in on extent (for poles on cube)
+map_frame.camera.setExtent(arcpy.Extent(extent.XMin * zoom,
+                           extent.YMin * zoom,
+                           extent.XMax * zoom,
+                           extent.YMax * zoom))
 
-    # rotate map frame
-    map_frame.camera.heading = rot_map
-    map_frame.elementRotation = rot_frame
+# rotate map frame
+map_frame.camera.heading = rot_map
+map_frame.elementRotation = rot_frame
 ```
-
-
-
+Once this part of the script was run for each of the faces, the layout is exported to PDF, named {globe_name}.pdf which is defined by the selected globe, at a resolution of 300 dpi by default.
 
 ## Acknowledgements and Credits
 The code for generating a dodecahedron was written together with Anna Brázdová and David Martínek based on code that was written in classes of the Mathematical Cartography course at the Charles University in Prague. This was used as examination for this course. The part for generating a cube was written as an extension to the already existing code for examination in the course Programming for GIS at the Charles University in Prague. 
