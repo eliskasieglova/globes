@@ -1,11 +1,14 @@
 # Globes
 Creating globes on cube / dodecahedron ready to print using the Python arcpy library. Will not work without an active ArcGIS license.
 
-## Project Description
-This project aims to combine GIS, programming, cartography and art to generate globes on two different shapes: a dodecahedron and a cube. The faces of each of these shapes are saved to a pdf file ready to print. It is possible to choose the background map from the ESRI basemap list (described further in the documentation) and whether or not you want to have meridians and parallels visualized on the globe. After printed, the globe can be glued together and used as a Christmas tree decoration, for example.
+This project aims to combine GIS, programming, cartography and art to generate globes on two different shapes: a dodecahedron and a cube. The faces of each of these shapes are saved to a pdf file ready to print. It is possible to choose the background map from the ESRI basemap list (described further in the documentation) and whether or not you want to have meridians and parallels visualized on the globe. After printed, the globe can be glued together and used as a Christmas tree decoration or can be hung above your bed as a dreamcatcher, for example. This is what the results will look like (no, it does not fold itself):
+<img src="https://github.com/eliskasieglova/globes/assets/57137417/c6c4dab9-3203-444b-a81c-ac2b7592b54e" height="auto" width="300">
 
 ## Installation Guide & How to Run
-The code utilizes the arcpy library, it is necessary to have arcpy installed and running on your computer. The arcpy installation guide can be found here: https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/installing-arcpy.htm. 
+The code utilizes the arcpy library, it is necessary to have arcpy installed and running on your computer. The arcpy installation guide can be found here: https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/installing-arcpy.htm. The code can be run from the terminal - navigate to the folder where _globes_main.py_ is saved --> type "globes_main.py 12" or "globes_main.py 6" if you want a dodecahedron or a cube respectively.
+
+If this happens, bad:
+<img src="https://github.com/eliskasieglova/globes/assets/57137417/82a1a9f5-a4bd-4dcf-82fd-1b2723770eff" height="auto" width="300">.
 
 The following libraries need to be installed:
 - arcpy
@@ -15,14 +18,15 @@ The following libraries need to be installed:
 - pathlib
 - math
 
-Further on, it is necessary to create a blank ArcGIS project called "project.aprx" and save it to your root folder where you will be running this code. Once you have arcpy and all the further mentioned libraries installed, and you created a project, you can proceed to running the code. 
+Further on, it is necessary to create a **blank ArcGIS project** called "project.aprx" and save it to your root folder where you will be running this code. Once you have arcpy and all the further mentioned libraries installed, and you created a project, you can proceed to running the code. 
 
-The lines 11-21 in globes_main.py include the variables to be changed by the user. The variables that can be changed are:
-- _globe\_type_: '12' or '6',
+The lines 11-21 in globes_main.py include variables that can be changed by the user. Those are:
 - _display_: True or False whether or not the parallels and meridians should be present in the output PDF file,
-- _basemap_: defaults to "Charted Territory Map" but feel free to change it from the list of ESRI Basemaps found here: https://www.arcgis.com/home/group.html?id=702026e41f6641fb85da88efe79dc166#overview,
+- _basemap_: defaults to "Charted Territory Map" but feel free to change it from the list of ESRI Basemaps found here: https://www.arcgis.com/home/group.html?id=702026e41f6641fb85da88efe79dc166#overview
 - _arcpy.env.workspace_: absolute path to your workspace,
 - _project\_path_: relative path to your project (defaults to "project.aprx" but feel free to change if you have the project saved somewhere else/you named the project differently).
+
+Apart from all the skills to get the code running you will also need a scissor and some glue to put it all together in the end. If you want to have a Christmas decoration but do not have an arcpy license, the pdfs with a ready to print dodecahedron and a cube are published in this github repository.
 
 ## Theoretical Background
 - geographic vs projected coordinates
