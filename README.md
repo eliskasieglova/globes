@@ -90,11 +90,27 @@ The script loops through the globe faces (number of iterations based on variable
 ```
 # Create array of points from lists of coordinates
 boundary_pts = arcpy.Array([arcpy.Point(x, y) for x, y in zip(XM, YM)])
+
 # Convert to polyline
 output = arcpy.Polyline(boundary_pts)
+
 # Save as shapefile
 arcpy.CopyFeatures_management(output, f'temp/meridians_{i + 1}{globe_type}.shp')
 ```
+
+After we have the shapefiles for the boundary, meridians and parallels of given face, a new map in the ArcGIS Pro project is created, the basemapp is added and the projection is set based on the defined projections in the _map_projections.py_ script. Why do we have to create a new map for each face, one might ask? It is because each face has to have its own set projection, and also each face is rotated in a different direction so that the edges connect.
+
+```
+# Create Map
+new_map = aprx.createMap(f"Face{i + 1}")
+
+# Add basemap territory
+new_map.addBasemap(basemap)
+
+# set target spatial reference
+spatial_reference = projs[i]
+```
+
 
 
 ## Acknowledgements and Credits
