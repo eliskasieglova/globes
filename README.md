@@ -59,7 +59,7 @@ The next section will be a simple walk-through of the code and explanation of it
 Described above.
 
 ### 2. Create directories 
-Create directories to store temporary data ("/temp") and results ("/results").
+Create directories to store temporary data ("/weloveshapefiles") and results ("/results").
 
 ### 3. Layout settings. 
 DPI, layout width and layout height. Possible to change DPI if you want to print on larger paper, would not recommend changing width and height as the position of the elements on the paper is absolute.
@@ -98,7 +98,18 @@ output = arcpy.Polyline(boundary_pts)
 arcpy.CopyFeatures_management(output, f'temp/meridians_{i + 1}{globe_type}.shp')
 ```
 
-After we have the shapefiles for the boundary, meridians and parallels of given face, a new map in the ArcGIS Pro project is created, the basemapp is added and the projection is set based on the defined projections in the _map_projections.py_ script. Why do we have to create a new map for each face, one might ask? It is because each face has to have its own set projection, and also each face is rotated in a different direction so that the edges connect.
+After this, the parallels and meridians are all in one file and it is necessary to split them to avoid the ends and beginnings from connecting. This was done using the _arcpy.management.SplitLine_ function which splits the line by points, and then using _arcpy.da.UpdateCursor()_ and _cursor.deleteRow()_ the longest segments (= the ones connecting the end of one meridian/parallel and the beginning of another) are removed.
+
+```
+arcpy.management.SplitLine(f'temp/meridians_face{i + 1}_notsplit{globe_type}.shp', f'temp/meridians_face{i + 1}_split{globe_type}.shp')
+
+with arcpy.da.UpdateCursor(f"temp/meridians_face{i + 1}_split{globe_type}.shp", ["FID", "SHAPE@LENGTH"]) as cursor:
+    for row in cursor:
+        if row[1] > 1000000:
+            cursor.deleteRow()
+```
+
+After we have the shapefiles for the boundary, meridians and parallels of given face, a new map in the ArcGIS Pro project is created, the basemapp is added and the the target projection is set based on the defined projections in the _map_projections.py_ script. Why do we have to create a new map for each face, one might ask? It is because each face has to have its own set projection, and also each face is rotated in a different direction so that the edges connect.
 
 ```
 # Create Map
@@ -110,6 +121,49 @@ new_map.addBasemap(basemap)
 # set target spatial reference
 spatial_reference = projs[i]
 ```
+
+Then each of the shapefiles is projected to the defined target spatial reference. There were tries to do this using the _arcpy.Project_management()_ function, however, that returned a fatal error. Because debugging, looking for help online or asking ChatGPT was not much help, the reprojection was done using the Python library _geopandas_. All the above created and edited shapefiles are stored in the temporary folder, the results of the projection operation are saved into the results folder and are plotted on the resulting globe.
+
+```
+# reproject meridians to given spatial_reference
+if not Path(f'results/meridians_face{i + 1}{globe_type}.shp').is_file():
+    # open and project shapefile with geopandas - arcpy gave us fatalerror on arcpy.Project_management()
+    m_gdf = gpd.read_file(f"temp/meridians_face{i + 1}_split{globe_type}.shp").set_crs(spatial_reference)
+    m_gdf.to_file(f'results/meridians_face{i + 1}{globe_type}.shp')
+```
+
+Feature layers are created from these shapefiles and they are added to the map.
+
+```
+    # make feature layers from projected shapefiles
+    m_path = f"results/meridians_face{i + 1}{globe_type}.shp"
+    p_path = f"results/parallels_face{i + 1}{globe_type}.shp"
+    b_path = f"results/boundary_face{i + 1}{globe_type}.shp"
+
+    meridians_shp = arcpy.management.MakeFeatureLayer(m_path, "meridians")[0]
+    parallels_shp = arcpy.management.MakeFeatureLayer(p_path, "parallels")[0]
+    boundary_shp = arcpy.management.MakeFeatureLayer(b_path, "boundary")[0]
+
+    # add meridians and parallels to map
+    new_map.addLayer(meridians_shp)
+    new_map.addLayer(parallels_shp)
+    new_map.addLayer(boundary_shp)
+```
+Then, the face is placed on the layout based on the vertices defined at the beginning of the script.
+```
+        # Set boundary points of map frame
+        map_boundary_points = arcpy.Array([
+            arcpy.Point(p1[0], p1[1]),
+            arcpy.Point(p2[0], p2[1]),
+            arcpy.Point(p3[0], p3[1]),
+            arcpy.Point(p4[0], p4[1]),
+            arcpy.Point(p1[0], p1[1])
+        ])
+
+        # Create the polygon of map frame boundary
+        map_boundary = arcpy.Polygon(map_boundary_points)
+```
+
 
 
 
