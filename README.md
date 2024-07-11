@@ -35,7 +35,7 @@ The project consists of 3 Python files: **globes_main.py**, **globe_definitions.
 
 The **map projections** are in the ArcGIS format. They are gnomonic projections with a different cartographic pole for each of the globe faces and are used for projecting the basemap for each of the globe faces.
 
-The **globe definitions** contain values necessary for generating parallels and meridians for each of the faces. The values are stored as lists of integers that are fetched based on index (index of face 1 is 0 etc.).The values it contains are based on the supplementary material we obtained from doc. Bayer in the course Mathematical Cartography. The supplementary material can be downloaded here: https://web.natur.cuni.cz/~bayertom/images/courses/mmk/mmk_cv_2_navod.pdf. All inputs are in radians.
+The **globe definitions** contain values necessary for generating parallels and meridians for each of the faces. The values are stored as lists of integers that are fetched based on index (index of face 1 is 0 etc.).The values it contains are based on the supplementary material we obtained from doc. Bayer in the course Mathematical Cartography. The supplementary material can be downloaded here: https://web.natur.cuni.cz/~bayertom/images/courses/mmk/mmk_cv_2_navod.pdf.
 
 ![image](https://github.com/eliskasieglova/globes/assets/57137417/3e0a4a40-2e7b-40e7-b0a1-21c0a73dba34)
 ![image](https://github.com/eliskasieglova/globes/assets/57137417/9aa8f0cd-4a7f-4b54-aead-8d6d5a25c028)
@@ -83,6 +83,19 @@ This section contains the functions used to produce shapefiles of the face bound
 - _rotate()_: rotates list of input points by input angle,
 - _splitMeridians()_: splits a list of points for all meridians to list of lists separated for each individual meridian,
 - _splitParallels()_: splits a list of points for all parallels to list of lists separated for each individual parallel.
+
+### Creating Globes
+The actual script!!
+The script loops through the globe faces (number of iterations based on variable _globe_type_) and fetches the variables from the script _globe_definitions.py_. All the variables are converted to radians. 3 shapefiles are created for each face and saved to the temporary folder _/weloveshapefiles_: _boundary.shp_ (face boundary), _meridians.shp_ and _parallels.shp_. All the shapefiles are named based on the globe face they represent (e.g. _boundary_face1.shp_). This process is cached, therefore if the wanted output file (for example _meridians_face1.shp_) already exists, this computationally expensive part of the code is skipped. This is also where arcpy comes into the game. We initially have all the coordinates saved in lists by x- and y-coordinates (for example _XM_ and _YM_), which we zip into array of arcpy Point objects and then convert those to a polyline such.
+```
+# Create array of points from lists of coordinates
+boundary_pts = arcpy.Array([arcpy.Point(x, y) for x, y in zip(XM, YM)])
+# Convert to polyline
+output = arcpy.Polyline(boundary_pts)
+# Save as shapefile
+arcpy.CopyFeatures_management(output, f'temp/meridians_{i + 1}{globe_type}.shp')
+```
+
 
 ## Acknowledgements and Credits
 The code for generating a dodecahedron was written together with Anna Brázdová and David Martínek based on code that was written in classes of the Mathematical Cartography course at the Charles University in Prague. This was used as examination for this course. The part for generating a cube was written as an extension to the already existing code for examination in the course Programming for GIS at the Charles University in Prague. 
