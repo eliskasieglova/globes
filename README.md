@@ -38,6 +38,9 @@ The **map projections** are in the ArcGIS format. They are gnomonic projections 
 
 The **globe definitions** contain values necessary for generating parallels and meridians for each of the faces. The values are stored as lists of integers that are fetched based on index (index of face 1 is 0 etc.).The values it contains are based on the supplementary material we obtained from doc. Bayer in the course Mathematical Cartography. The supplementary material can be downloaded here: https://web.natur.cuni.cz/~bayertom/images/courses/mmk/mmk_cv_2_navod.pdf.
 
+<img src="https://github.com/eliskasieglova/globes/assets/57137417/3e0a4a40-2e7b-40e7-b0a1-21c0a73dba34" alt="Description" width="auto" height="100">
+
+
 ![image](https://github.com/eliskasieglova/globes/assets/57137417/3e0a4a40-2e7b-40e7-b0a1-21c0a73dba34 | width = 100)
 
 ![image](https://github.com/eliskasieglova/globes/assets/57137417/9aa8f0cd-4a7f-4b54-aead-8d6d5a25c028 | width = 100)
