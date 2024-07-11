@@ -1,5 +1,5 @@
 # Globes
-Creating globes on cube / dodecahedron ready to print using the Python arcpy library. Will not work without an active ArcGIS account.
+Creating globes on cube / dodecahedron ready to print using the Python arcpy library. Will not work without an active ArcGIS license.
 
 ## Project Description
 This project aims to combine GIS, programming, cartography and art to generate globes on two different shapes: a dodecahedron and a cube. The faces of each of these shapes are saved to a pdf file ready to print. It is possible to choose the background map from the ESRI basemap list (described further in the documentation) and whether or not you want to have meridians and parallels visualized on the globe. After printed, the globe can be glued together and used as a Christmas tree decoration, for example.
