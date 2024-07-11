@@ -2,7 +2,9 @@
 Creating globes on cube / dodecahedron ready to print using the Python arcpy library. Will not work without an active ArcGIS license.
 
 This project aims to combine GIS, programming, cartography and art to generate globes on two different shapes: a dodecahedron and a cube. The faces of each of these shapes are saved to a pdf file ready to print. It is possible to choose the background map from the ESRI basemap list (described further in the documentation) and whether or not you want to have meridians and parallels visualized on the globe. After printed, the globe can be glued together and used as a Christmas tree decoration or can be hung above your bed as a dreamcatcher, for example. This is what the results will look like (no, it does not fold itself):
-<img src="https://github.com/eliskasieglova/globes/assets/57137417/c6c4dab9-3203-444b-a81c-ac2b7592b54e" height="auto" width="300">
+
+<img src="https://github.com/eliskasieglova/globes/assets/57137417/c6c4dab9-3203-444b-a81c-ac2b7592b54e" height="200" width="auto"> 
+<img src="https://github.com/eliskasieglova/globes/assets/57137417/ebd12ff5-e792-47e0-880b-ceddefb00a29" height="200" width="auto">
 
 ## Installation Guide & How to Run
 The code utilizes the arcpy library, it is necessary to have arcpy installed and running on your computer. The arcpy installation guide can be found here: https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/installing-arcpy.htm. The code can be run from the terminal - navigate to the folder where _globes_main.py_ is saved --> type "globes_main.py 12" or "globes_main.py 6" if you want a dodecahedron or a cube respectively.
@@ -27,10 +29,6 @@ The lines 11-21 in globes_main.py include variables that can be changed by the u
 - _project\_path_: relative path to your project (defaults to "project.aprx" but feel free to change if you have the project saved somewhere else/you named the project differently).
 
 Apart from all the skills to get the code running you will also need a scissor and some glue to put it all together in the end. If you want to have a Christmas decoration but do not have an arcpy license, the pdfs with a ready to print dodecahedron and a cube are published in this github repository.
-
-## Theoretical Background
-- geographic vs projected coordinates
-- gnomonic projection
 
 ## Documentation
 The project consists of 3 Python files: **globes_main.py**, **globe_definitions.py** and **map_projections.py**.
