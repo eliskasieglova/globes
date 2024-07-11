@@ -19,6 +19,7 @@ Further on, it is necessary to create a blank ArcGIS project called "project.apr
 
 The lines 11-21 in globes_main.py include the variables to be changed by the user. The variables that can be changed are:
 - _globe\_type_: '12' or '6',
+- _display_: True or False whether or not the parallels and meridians should be present in the output PDF file,
 - _basemap_: defaults to "Charted Territory Map" but feel free to change it from the list of ESRI Basemaps found here: https://www.arcgis.com/home/group.html?id=702026e41f6641fb85da88efe79dc166#overview,
 - _arcpy.env.workspace_: absolute path to your workspace,
 - _project\_path_: relative path to your project (defaults to "project.aprx" but feel free to change if you have the project saved somewhere else/you named the project differently).
@@ -169,7 +170,7 @@ map_frame.map = new_map
 map_frame.setAnchor = "CENTER_POINT"
 ```
 
-Then comes the finishing touches of the given map frame (we are still working face by face). If ```display == True```, the parallels and meridians will be visualized on the globe. For that it is necessary to set the symbology of these layers. The color is set to slightly transparent black with the width 1.
+Then comes the finishing touches of the given map frame (we are still working face by face). If ```display == True```, the parallels and meridians will be visualized on the globe. For that it is necessary to set the symbology of these layers. The color is set to slightly transparent black with the width 1. If ```display == False``` alpha is turned to 0 making all the layers invisible.
 
 ```
 layer1 = new_map.listLayers('meridians')[0]
